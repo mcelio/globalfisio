@@ -1,0 +1,1 @@
+java -classpath lib/log4j-1.2.17.jar;lib/postgresql-9.2-1002.jdbc4.jar Main

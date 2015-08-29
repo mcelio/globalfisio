@@ -1,0 +1,197 @@
+CREATE DATABASE fisio
+  WITH OWNER = postgres
+  ENCODING = 'UTF8'
+  TABLESPACE = pg_default
+  LC_COLLATE = 'Portuguese_Brazil.1252'
+  LC_CTYPE = 'Portuguese_Brazil.1252'
+  CONNECTION LIMIT = -1;
+
+
+CREATE USER fisio with PASSWORD 'fisio';
+
+
+grant all privileges on database fisio to fisio;
+
+
+-- Table: pessoa
+
+-- DROP TABLE pessoa;
+
+CREATE TABLE pessoa
+(
+  id numeric,
+  tipo numeric,
+  nome character(50),
+  nomeMae character(50),
+  nomePai character(50),
+  dataNascimento date,
+  idade numeric,
+  cpf character(12),
+  rg character(10),
+  email character(50),
+  cns character(30),
+  telefone character(12),
+  celular character(12),
+  endereco character(50),
+  numero numeric,
+  bairro character(30),
+  estado character(2),
+  cidade character(40),
+  cep character(9),
+  dataCadastro date,
+  numeroSus character(16),
+  CONSTRAINT pessoa_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE pessoa OWNER TO fisio;
+
+
+
+-- Table: sessao
+
+-- DROP TABLE sessao;
+
+CREATE TABLE sessao
+(
+  id numeric NOT NULL,
+  data timestamp with time zone,
+  cliente_id numeric,
+  convenio character(20),
+  diagnostico character(60),
+  exame character(30),
+  CONSTRAINT sessao_pkey PRIMARY KEY (id),
+  CONSTRAINT sessao_cliente_id_fkey FOREIGN KEY (cliente_id)
+      REFERENCES pessoa (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sessao
+  OWNER TO fisio;
+
+  
+  
+-- Table: guia
+
+-- DROP TABLE guia;
+
+CREATE TABLE guia
+(
+  id numeric,
+  indice numeric,
+  descricao character(60),
+  data character(10),
+  hora character(6),
+  feito numeric,
+  CONSTRAINT guia_id_fkey FOREIGN KEY (id)
+      REFERENCES sessao (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE guia
+  OWNER TO fisio;
+
+  
+  
+  
+  
+  
+-- Table: custo
+
+-- DROP TABLE custo;
+
+CREATE TABLE custo
+(
+  id numeric,
+  nome character(30),
+  descricao character(60),
+  valor numeric,
+  data character(10)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE custo
+  OWNER TO fisio;
+
+
+
+  
+-- Table: lembrete
+
+-- DROP TABLE lembrete;
+
+CREATE TABLE lembrete
+(
+  id numeric,  
+  descricao character(150),  
+  data character(10),
+  avisar integer
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE lembrete
+  OWNER TO fisio;
+  
+  
+  
+  -- Sequence: sessao_seq
+
+-- DROP SEQUENCE sessao_seq;
+
+CREATE SEQUENCE sessao_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE sessao_seq
+  OWNER TO fisio;
+
+  
+  -- Sequence: pessoa_seq
+
+-- DROP SEQUENCE pessoa_seq;
+
+CREATE SEQUENCE pessoa_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 4
+  CACHE 1;
+ALTER TABLE pessoa_seq
+  OWNER TO fisio;
+  
+  
+  
+    -- Sequence: custo_seq
+
+-- DROP SEQUENCE custo_seq;
+
+CREATE SEQUENCE custo_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 4
+  CACHE 1;
+ALTER TABLE custo_seq
+  OWNER TO fisio;
+
+  
+  
+-- DROP SEQUENCE lembrete_seq;
+
+CREATE SEQUENCE lembrete_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 4
+  CACHE 1;
+ALTER TABLE lembrete_seq
+  OWNER TO fisio;

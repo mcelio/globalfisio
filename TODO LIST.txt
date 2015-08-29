@@ -1,0 +1,12 @@
+1) colocar limite configurável para sessões (guias)
+2) atualizar custo - rever
+
+
+
+Melhorias
+
+1) verificar entrada de spinn button (hora) - rever
+2) Verificar (Debugar) erro que ocorre ao pesquisar/atualizar sessão várias vezes  -rever
+
+
+	
